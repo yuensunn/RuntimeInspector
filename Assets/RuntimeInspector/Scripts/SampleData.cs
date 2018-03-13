@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace RI.SampleData
 {
-
     [RIShow]
+   [System.Serializable]
     public class TestData
-    {
+    {   
         public int intNum = 1;
         public float floatNum = 2.1f;
         public string text = "3text";
@@ -19,7 +19,6 @@ namespace RI.SampleData
         public Data2 data2;
 
     }
-
     [RIShow]
     [System.Serializable]
     public class Data1
@@ -29,7 +28,7 @@ namespace RI.SampleData
         public string text = "Hello";
         public Data2 datadata;
 
-        public Data3[] helloMotor;
+        public Data3[] data3;
     }
 
     [System.Serializable]
