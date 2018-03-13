@@ -1,0 +1,18 @@
+{
+    "intNum": 1,
+    "floatNum": 2.0999999046325685,
+    "text": "3text",
+    "audio": {
+        "instanceID": 0
+    },
+    "texture": {
+        "instanceID": 0
+    },
+    "arrayInt": [],
+    "data": [],
+    "data2": {
+        "intNum": 1,
+        "floatNum": 2.0999999046325685,
+        "text": "3text"
+    }
+}
