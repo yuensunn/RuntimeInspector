@@ -5,46 +5,19 @@ using UnityEngine;
 
 namespace RI.SampleData
 {
+    [System.Serializable]
     [RIShow]
-   [System.Serializable]
-    public class TestData
-    {   
-        public int intNum = 1;
-        public float floatNum = 2.1f;
-        public string text = "3text";
-        public AudioClip audio;
-        public Texture2D texture;
-        public int[] arrayInt;
-        public Data1[] data;
-        public Data2 data2;
-
-    }
-    [RIShow]
-    [System.Serializable]
-    public class Data1
+    public class SampleQuestion
     {
-        public int intNum = 1;
-        public float floatNum = 3f;
-        public string text = "Hello";
-        public Data2 datadata;
+        public string question;
 
-        public Data3[] data3;
-    }
+        [DataType(typeof(Sprite))]
+        public string[] correctAnswer;
 
-    [System.Serializable]
-    public class Data2
-    {
-        public int intNum = 1;
-        public float floatNum = 2.1f;
-        public string text = "3text";
+        [DataType(typeof(Sprite))]
+        public string[] wrongAnswer;
 
-    }
-    [System.Serializable]
-    public class Data3
-    {
-        public int intNum = 1;
-        public float floatNum = 2.1f;
-        public string text = "3text";
+
 
     }
 }

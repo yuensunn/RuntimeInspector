@@ -1,0 +1,56 @@
+{
+    "question": "Select all the vegetables",
+    "correctAnswer": [
+        {
+            "texture": "3453453",
+            "audio": "",
+            "description": {
+                "text": "yththtyhty"
+            }
+        },
+        {
+            "texture": "",
+            "audio": "y65y6",
+            "description": {
+                "text": "y56y"
+            }
+        },
+        {
+            "texture": "66",
+            "audio": "",
+            "description": {
+                "text": "666"
+            }
+        },
+        {
+            "texture": "",
+            "audio": "",
+            "description": {
+                "text": ""
+            }
+        }
+    ],
+    "wrongAnswer": [
+        {
+            "texture": "",
+            "audio": "",
+            "description": {
+                "text": ""
+            }
+        },
+        {
+            "texture": "",
+            "audio": "",
+            "description": {
+                "text": ""
+            }
+        },
+        {
+            "texture": "",
+            "audio": "",
+            "description": {
+                "text": ""
+            }
+        }
+    ]
+}

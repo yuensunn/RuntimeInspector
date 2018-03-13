@@ -21,9 +21,9 @@ namespace RI
         void Awake()
         {
             string[] options = Helper.GetTypesWithHelpAttribute().Select(x => x.ToString()).ToArray();
-            dataForm = new DataForm("Data Form", options[0], Rect.MinMaxRect(Screen.width * 0.05f, Screen.height * 0.05f, Screen.width * 0.65f, Screen.height * 0.95f), 0);
-            createData = new CreateData(options, "Create Data", Rect.MinMaxRect(Screen.width * 0.67f, Screen.height * 0.05f, Screen.width * 0.95f, Screen.height * 0.5f), 1);
-            fileHierarchy = new FileHierarchy("File Hierarchy", Rect.MinMaxRect(Screen.width * 0.67f, Screen.height * 0.52f, Screen.width * 0.95f, Screen.height * 0.95f), 2);
+            dataForm = new DataForm("Data Form", options[0], Rect.MinMaxRect(Screen.width * 0.05f, Screen.height * 0.05f, Screen.width * 0.75f, Screen.height * 0.95f), 0);
+            createData = new CreateData(options, "Create Data", Rect.MinMaxRect(Screen.width * 0.77f, Screen.height * 0.05f, Screen.width * 0.95f, Screen.height * 0.5f), 1);
+            fileHierarchy = new FileHierarchy("File Hierarchy", Rect.MinMaxRect(Screen.width * 0.77f, Screen.height * 0.52f, Screen.width * 0.95f, Screen.height * 0.95f), 2);
             fileHierarchy.SetOption(dataForm.SetField);
             createData.onCreateDataFile.AddListener((index, name) =>
             {

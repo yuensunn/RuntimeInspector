@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 1568353659
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 39067668eee220edaf512cec10f8e9a6
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4774d6da9b606debf00b5a5d61c4487c
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Hello/Fruits/orange.png
+- Assets/Hello/Vegetables/salad.png
+- Assets/Hello/Vegetables/cabbage.png
+- Assets/Hello/Vegetables/apple.png
+- Assets/Hello/Vegetables/cucumber.png
+- Assets/Hello/Fruits/strawberry.png
+- Assets/Hello/Fruits/apple.png
+Dependencies: []

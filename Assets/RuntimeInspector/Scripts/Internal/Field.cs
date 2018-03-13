@@ -5,10 +5,12 @@ using System.Reflection;
 using System.Linq;
 using System;
 
+
 namespace RI
 {
     public interface IFieldAccesor
     {
+        string GetLabel();
         object GetValue(); //get self 
         void SetValue(object value); //set self
         SerializedObject[] GetNestedFields(); //Get nested field if self is a class or array
@@ -20,6 +22,8 @@ namespace RI
         BindingFlags flags;
         object reference;
         Type type;
+
+        string stringIndex;
         public ArrayAccessor(int index, string name, Type type, object reference, BindingFlags flags)
         {
             this.index = index;
@@ -27,6 +31,7 @@ namespace RI
             this.reference = reference;
             this.name = name;
             this.flags = flags;
+            this.stringIndex = "[" + index.ToString() + "]";
         }
         public object GetValue()
         {
@@ -40,7 +45,15 @@ namespace RI
         {
             return type.GetFields(flags).Select(x => new SerializedObject(x.Name, x.FieldType, GetValue())).ToArray();
         }
-
+        public string GetLabel()
+        {
+            return this.stringIndex;
+        }
+        public void UpdateIndex(int index)
+        {
+            this.stringIndex = "[" + index.ToString() + "]";
+            this.index = index;
+        }
         Array GetArray()
         {
             return reference.GetType().GetField(name, flags).GetValue(reference) as Array;
@@ -70,6 +83,11 @@ namespace RI
         public SerializedObject[] GetNestedFields()
         {
             return type.GetFields(flags).Where(w => w.GetType().GetConstructor(Type.EmptyTypes) != null).Select(x => new SerializedObject(x.Name, x.FieldType, GetValue())).ToArray(); ;
+        }
+
+        public string GetLabel()
+        {
+            return name;
         }
     }
     public class SerializedObject
@@ -118,6 +136,10 @@ namespace RI
             else if (this.Type.GetConstructor(Type.EmptyTypes) != null)
             {
                 return System.Activator.CreateInstance(this.Type);
+            }
+            else if (this.Type == typeof(string))
+            {
+                return string.Empty;
             }
             return System.Runtime.Serialization.FormatterServices.GetUninitializedObject(this.Type);
         }
@@ -172,11 +194,12 @@ namespace RI
         {
             GUILayout.BeginHorizontal("Box");
             if (nestedFields.Length > 0) foldout.Draw();
-            GUILayout.Label(serializedObject.Name, GUILayout.Width(80f));
-            GUILayout.Space(10);
+            GUILayout.Label(serializedObject.Accessor.GetLabel(), GUILayout.Width(GUI.skin.label.CalcSize(new GUIContent(serializedObject.Accessor.GetLabel())).x));
+            GUILayout.Space(5);
             GUILayout.BeginVertical();
             if (foldout.open)
             {
+
                 for (int i = 0; i < nestedFields.Length; i++)
                 {
                     nestedFields[i].Draw();
@@ -203,22 +226,23 @@ namespace RI
             {
                 elementFields.Add(BaseField.CreateBaseField(new SerializedObject(serializedObject.Name, serializedObject.Type.GetElementType(), serializedObject.Reference, i)));
             }
+
         }
 
         public override void Draw()
         {
             GUILayout.BeginHorizontal("Box");
-            if (elementFields.Count > 0) foldout.Draw();
-            GUILayout.Label(serializedObject.Name, GUILayout.Width(80f));
-            GUILayout.Space(10);
-            GUILayout.BeginVertical();
+            foldout.Draw();
+            GUILayout.Label(serializedObject.Accessor.GetLabel(), GUILayout.Width(GUI.skin.label.CalcSize(new GUIContent(serializedObject.Accessor.GetLabel())).x));
+            GUILayout.Space(5);
             if (foldout.open)
             {
+                GUILayout.BeginVertical();
+
                 for (int i = 0; i < elementFields.Count; i++)
                 {
                     GUILayout.BeginHorizontal();
                     elementFields[i].Draw();
-
                     GUI.enabled = (i != 0);
                     if (GUILayout.Button("⇑", GUILayout.MaxWidth(25)))
                     {
@@ -238,13 +262,13 @@ namespace RI
                     }
                     GUILayout.EndHorizontal();
                 }
-            }
-            if (GUILayout.Button("+"))
-            {
-                Add();
-            }
-            GUILayout.EndVertical();
 
+                if (GUILayout.Button("+"))
+                {
+                    Add();
+                }
+                GUILayout.EndVertical();
+            }
             GUILayout.EndHorizontal();
 
         }
@@ -261,6 +285,12 @@ namespace RI
             array = array.RemoveAt(index);
             serializedObject.SetField(array);
             elementFields.RemoveAt(index);
+
+
+            for (int i = 0; i < elementFields.Count; i++)
+            {
+                ((ArrayAccessor)elementFields[i].serializedObject.Accessor).UpdateIndex(i);
+            }
         }
 
         void Swap(int index1, int index2)
@@ -273,6 +303,14 @@ namespace RI
             BaseField tempSO = elementFields[index1];
             elementFields[index1] = elementFields[index2];
             elementFields[index2] = tempSO;
+
+
+            for (int i = 0; i < elementFields.Count; i++)
+            {
+                ((ArrayAccessor)elementFields[i].serializedObject.Accessor).UpdateIndex(i);
+            }
+
+
         }
 
 
@@ -300,10 +338,9 @@ namespace RI
         public override void Draw()
         {
             GUILayout.BeginHorizontal("Box");
-
-            GUILayout.Label(serializedObject.Name, GUILayout.Width(80f));
-            GUILayout.Space(10);
-            string newValue = GUILayout.TextArea(value, GUILayout.MinWidth(200));
+            GUILayout.Label(serializedObject.Accessor.GetLabel(), GUILayout.Width(GUI.skin.label.CalcSize(new GUIContent(serializedObject.Accessor.GetLabel())).x));
+            GUILayout.Space(5);
+            string newValue = GUILayout.TextArea(value, GUILayout.MinWidth(300f));
             if (newValue != value)
             {
 
